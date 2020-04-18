@@ -6,16 +6,52 @@
     "configurations": [
         {
             "type": "java",
-            "name": "Debug (Launch) - Current File",
+            "name": "Random World",
             "request": "launch",
-            "mainClass": "${file}"
+            "mainClass": "GridGenerator",
+            "args": "",
+            "projectName": "cs417-maze_2c6c55ee"
         },
         {
             "type": "java",
-            "name": "Debug (Launch)-GridGenerator<cs417-maze_2c6c55ee>",
+            "name": "Random Hard World",
             "request": "launch",
             "mainClass": "GridGenerator",
+            "args": "-d 25 25",
             "projectName": "cs417-maze_2c6c55ee"
-        }
+        },
+        {
+            "type": "java",
+            "name": "Easy World",
+            "request": "launch",
+            "mainClass": "GridGenerator",
+            "args": "-i world_examples/easy.world",
+            "projectName": "cs417-maze_2c6c55ee"
+        },
+        {
+            "type": "java",
+            "name": "Medium World",
+            "request": "launch",
+            "mainClass": "GridGenerator",
+            "args": "-i world_examples/medium.world",
+            "projectName": "cs417-maze_2c6c55ee"
+        },
+        {
+            "type": "java",
+            "name": "Hard A World",
+            "request": "launch",
+            "mainClass": "GridGenerator",
+            "args": "-i world_examples/hard_a.world",
+            "projectName": "cs417-maze_2c6c55ee"
+        },
+        {
+            "type": "java",
+            "name": "Hard B World",
+            "request": "launch",
+            "mainClass": "GridGenerator",
+            "args": "-i world_examples/hard_b.world",
+            "projectName": "cs417-maze_2c6c55ee"
+        },
+
     ]
 }

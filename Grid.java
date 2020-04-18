@@ -9,7 +9,6 @@
 */
 import java.util.Random;
 import java.io.*;
-import java.util.Arrays;
 
 class Grid {
     private int N = 13, M = 9;
@@ -66,6 +65,13 @@ class Grid {
         return this.mygrid[i][j];
     }
 
+    public Cell getCell(int numIdx){
+        int[] idx = new int[2];
+        idx[0] = numIdx / M;
+        idx[1] = numIdx % M;
+        return this.mygrid[idx[0]][idx[1]];
+    }
+
     public int[] getStart() {
         int[] idx = new int[2];
         idx[0] = this.start_idx / M;
@@ -102,6 +108,10 @@ class Grid {
 
     public int[] getGrass() {
         return this.grass;
+    }
+
+    public int getNumOfCells(){
+        return getNumOfRows() * getNumOfColumns();
     }
 
     private void storeWorld() {
@@ -180,7 +190,7 @@ class Grid {
                 }
                 param = br.readLine();
             }
-
+            br.close();
             this.mygrid = new Cell[this.N][this.M];
         } catch (IOException e) {
         }

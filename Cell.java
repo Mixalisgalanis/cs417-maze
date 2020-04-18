@@ -51,6 +51,10 @@ class Cell {
         return this.cost;
     }
 
+    public void setCost(int cost){
+        this.cost = cost;
+    }
+
     public void changeCellType(char cell_type, int world_cost) {
         if (cell_type != 'L' && cell_type != 'W' && cell_type != 'G') {
             System.out.println("Unknown type of cell. This cell is set to Land!");

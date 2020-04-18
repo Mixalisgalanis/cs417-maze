@@ -10,7 +10,6 @@
 import java.awt.Canvas;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import javax.swing.JFrame;
 import java.awt.Color;
 import java.awt.Rectangle;
 import java.awt.TexturePaint;
