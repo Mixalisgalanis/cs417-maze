@@ -4,76 +4,99 @@
  * date : March 2020
  */
 class Cell {
-    private int cost = 1;
 
-    private boolean starting_point;
-    private boolean terminal_point;
-    private char cell_type = 'L'; // l stands for Land
+    // Array Index format
+    private int i;
+    private int j;
+    
+    // Numerical index format
+    private int idx;
 
-    Cell() {
-        this.starting_point = false;
-        this.terminal_point = false;
+    // Cell information
+    private int cost;
+    private Util.CELL_TYPES cell_type;
+    private Util.CELL_CONDS cell_cond;
+
+    // Constructor: Default Cell (LAND)
+    Cell(int i, int j, int columns) {
+        this.i = i;
+        this.j = j;
+        this.idx = Util.getNumIndex(i, j, columns);
+
+        this.cell_type = Util.CELL_TYPES.LAND;
+        this.cell_cond = Util.CELL_CONDS.NORMAL;
+        this.cost = Util.getCostType(this.cell_type);
     }
 
-    Cell(char cell_type, boolean starting_point, boolean terminal_point, int world_cost) {
-        if (cell_type != 'L' && cell_type != 'W' && cell_type != 'G') {
-            System.out.println("Unknown type of cell. This cell is set to Land!");
-            cell_type = 'L';
-            world_cost = 1;
-        }
+    // Constructor with specific type of Cell
+    Cell(int i, int j, int columns, Util.CELL_TYPES cell_type, Util.CELL_CONDS cell_cond) {
+        this.i = i;
+        this.j = j;
+        this.idx = Util.getNumIndex(i, j, columns);
+
         this.cell_type = cell_type;
-        this.starting_point = starting_point;
-        this.terminal_point = terminal_point;
-        this.cost = world_cost;
+        this.cell_cond = cell_cond;
+        this.cost = Util.getCostType(this.cell_type);
     }
+
+    // Cell index functions
+
+    public int[] getArrIndex(){
+        int[] arrIndex = new int[2];
+        arrIndex[0] = i;
+        arrIndex[1] = j;
+        return arrIndex;
+    }
+
+    public int getNumIndex(){
+        return idx;
+    }
+
+    // Cell information functions
 
     public boolean isWall() {
-        return (this.cell_type == 'W');
+        return (this.cell_type == Util.CELL_TYPES.WALL);
     }
 
     public boolean isGrass() {
-        return (this.cell_type == 'G');
+        return (this.cell_type == Util.CELL_TYPES.GRASS);
     }
 
     public boolean isLand() {
-        return (this.cell_type == 'L');
-    }
-
-    public boolean isStart() {
-        return this.starting_point;
-    }
-
-    public boolean isTerminal() {
-        return this.terminal_point;
+        return (this.cell_type == Util.CELL_TYPES.LAND);
     }
 
     public int getCost() {
         return this.cost;
     }
 
+    /**
+     * WARNING: Please avoid using this function manually as this changes the cost of the individual cell, not all the cells of this type.
+     *  */
     public void setCost(int cost){
         this.cost = cost;
     }
 
-    public void changeCellType(char cell_type, int world_cost) {
-        if (cell_type != 'L' && cell_type != 'W' && cell_type != 'G') {
-            System.out.println("Unknown type of cell. This cell is set to Land!");
-            cell_type = 'L';
-            world_cost = 1;
-        }
+    public void changeCellType(Util.CELL_TYPES cell_type) {
         this.cell_type = cell_type;
-        this.cost = world_cost;
+        this.cost = Util.getCostType(this.cell_type);
     }
 
-    public char getCellType() {
+    public Util.CELL_TYPES getCellType() {
         return this.cell_type;
     }
 
-    public void setStartingPoint(boolean sp) {
-        this.starting_point = sp;
+    public void setCellCond(Util.CELL_CONDS cell_cond){
+        this.cell_cond = cell_cond;
     }
 
-    public void setTerminalPoint(boolean sp) {
-        this.terminal_point = sp;
+    // Cell conditions functions
+
+    public boolean isStart() {
+        return (this.cell_cond == Util.CELL_CONDS.START);
     }
+
+    public boolean isTerminal() {
+        return (this.cell_cond == Util.CELL_CONDS.END);
+    }    
 }

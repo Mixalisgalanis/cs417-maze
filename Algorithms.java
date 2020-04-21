@@ -18,6 +18,7 @@ public class Algorithms {
 
     public Algorithms(Grid grid){
         //Initiating graph
+        this.grid = grid;
         rows = grid.getNumOfRows();
         columns = grid.getNumOfColumns();
         vertices = rows * columns;
@@ -25,20 +26,14 @@ public class Algorithms {
         addNeighbours(grid);
     }
 
-    // Utility Functions
-
-    private int getNumIdx(int r, int c){
-        return r * columns + c;
-    }
-
     private void addNeighbours(Grid grid){
         for (int i = 0; i < rows; i++){
             for (int j = 0; j < columns; j++){
-                if (i - 1 >= 0 && !grid.getCell(i - 1, j).isWall()) graph.addNewEdge(getNumIdx(i, j), getNumIdx(i - 1, j)); //check top
-                if (i + 1 < rows && !grid.getCell(i + 1, j).isWall()) graph.addNewEdge(getNumIdx(i, j), getNumIdx(i + 1, j)); //check bottom
-                if (j - 1 >= 0 && !grid.getCell(i, j - 1).isWall()) graph.addNewEdge(getNumIdx(i, j), getNumIdx(i, j - 1)); //check left
-                if (j + 1 < columns && !grid.getCell(i, j + 1).isWall()) graph.addNewEdge(getNumIdx(i, j), getNumIdx(i, j + 1)); //check right 
-                //System.out.println("i:" + i + " j:" + j + " idx: " + getNumIdx(i, j) + ", " + ((i - 1 >= 0) ? "T" : "") + ((i + 1 < rows) ? "B" : "") + ((j - 1 >= 0) ? "L" : "") + ((j + 1 < columns) ? "R" : ""));
+                if (i - 1 >= 0 && !grid.getCell(i - 1, j).isWall()) graph.addNewEdge(Util.getNumIndex(i, j, columns), Util.getNumIndex(i - 1, j, columns)); //check top
+                if (i + 1 < rows && !grid.getCell(i + 1, j).isWall()) graph.addNewEdge(Util.getNumIndex(i, j, columns), Util.getNumIndex(i + 1, j, columns)); //check bottom
+                if (j - 1 >= 0 && !grid.getCell(i, j - 1).isWall()) graph.addNewEdge(Util.getNumIndex(i, j, columns), Util.getNumIndex(i, j - 1, columns)); //check left
+                if (j + 1 < columns && !grid.getCell(i, j + 1).isWall()) graph.addNewEdge(Util.getNumIndex(i, j, columns), Util.getNumIndex(i, j + 1, columns)); //check right 
+                //System.out.println("i:" + i + " j:" + j + " idx: " + Util.getNumIndex(i, j, columns) + ", " + ((i - 1 >= 0) ? "T" : "") + ((i + 1 < rows) ? "B" : "") + ((j - 1 >= 0) ? "L" : "") + ((j + 1 < columns) ? "R" : ""));
             }
         }
     }
@@ -120,11 +115,6 @@ public class Algorithms {
         return 0;
     }
 
-    public void setGrassCost(int cost){
-        for (int grassIdx : grid.getGrass())
-            grid.getCell(grassIdx).setCost(cost);
-    }
-
     private int calculateCost(LinkedList<Integer> steps){
         int totalCost = 0;
         for (int step : steps){
@@ -147,6 +137,7 @@ public class Algorithms {
             //System.out.println(adjacentLists.length + ", " + listIndex + ", " + edgeIndex);
             adjacentLists[listIndex].add(edgeIndex);
         }
+        
         public LinkedList<Integer>[] getAdjacentLists(){
             return adjacentLists;
         }
