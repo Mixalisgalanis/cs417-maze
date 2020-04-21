@@ -76,22 +76,22 @@ class GridGenerator {
                 break;
             case 5:  // A* (Grass Cost: 2)
                 algorithms.setGrassCost(2);
-                algorithms.AStar();
+                algorithms.AStar(grid.getStartidx(), grid.getTerminalidx());
                 //VisualizeGrid(frame, grid.getNumOfRows(), grid.getNumOfColumns(), grid.getWalls(), grid.getGrass(), steps, grid.getStartidx(), grid.getTerminalidx());
                 break;
             case 6:  // A* (Grass Cost: 10)
                 algorithms.setGrassCost(10);
-                algorithms.AStar();
+                algorithms.AStar(grid.getStartidx(), grid.getTerminalidx());
                 //VisualizeGrid(frame, grid.getNumOfRows(), grid.getNumOfColumns(), grid.getWalls(), grid.getGrass(), steps, grid.getStartidx(), grid.getTerminalidx());
                 break;
             case 7:  // LRTA* (Grass Cost: 2)
                 algorithms.setGrassCost(2);
-                algorithms.LRTAStar();
+                algorithms.LRTAStar(grid.getStartidx(), grid.getTerminalidx());
                 //VisualizeGrid(frame, grid.getNumOfRows(), grid.getNumOfColumns(), grid.getWalls(), grid.getGrass(), steps, grid.getStartidx(), grid.getTerminalidx());
                 break;
             case 8:  // LRTA* (Grass Cost: 10)
                 algorithms.setGrassCost(10);
-                algorithms.LRTAStar();
+                algorithms.LRTAStar(grid.getStartidx(), grid.getTerminalidx());
                 //VisualizeGrid(frame, grid.getNumOfRows(), grid.getNumOfColumns(), grid.getWalls(), grid.getGrass(), steps, grid.getStartidx(), grid.getTerminalidx());
                 break;
             case 9:  // Visualize Original Grid

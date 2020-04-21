@@ -5,15 +5,16 @@ import java.util.Stack;
 /**
  * Each of the algorithms below needs a graph in order to work. Therefore, 
  * the initial process consists of the graph representation of our maze.
- * 
  */
 public class Algorithms {
-    //Graph related variables
+    // Graph related variables
     private int rows;
     private int columns;
     int vertices;
     private Graph graph;
     private Grid grid;
+
+    // Constructor
 
     public Algorithms(Grid grid){
         //Initiating graph
@@ -23,6 +24,8 @@ public class Algorithms {
         graph = new Graph(vertices);
         addNeighbours(grid);
     }
+
+    // Utility Functions
 
     private int getNumIdx(int r, int c){
         return r * columns + c;
@@ -39,6 +42,8 @@ public class Algorithms {
             }
         }
     }
+
+    // Algorithms
 
     public int[] BFS(int start,int end) {
         // Mark all the vertices as not visited(By default 
@@ -99,12 +104,20 @@ public class Algorithms {
         return steps.stream().mapToInt(i->i).toArray();
     }
 
-    public void AStar(){
+    public void AStar(int start, int end){
 
     }
 
-    public void LRTAStar(){
+    public void LRTAStar(int start, int end){
         
+    }
+
+    public void LRTAStarHelper(int[] result, int[] H, int s, int a){
+
+    }
+
+    public int LRTACost(int s, int a, int sAlt, int[] H){
+        return 0;
     }
 
     public void setGrassCost(int cost){
@@ -122,12 +135,10 @@ public class Algorithms {
     
     class Graph {
         //Essential Variables
-        private final int vertices;
         protected LinkedList<Integer> adjacentLists[];
 
-        Graph(int vertices, Grid grid){
+        Graph(int vertices){
             //initialize variables
-            this.vertices = vertices;
             this.adjacentLists = new LinkedList[vertices];
             for (int i = 0; i < adjacentLists.length; i++) adjacentLists[i] = new LinkedList<>();
         }

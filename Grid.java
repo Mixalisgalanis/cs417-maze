@@ -114,6 +114,14 @@ class Grid {
         return getNumOfRows() * getNumOfColumns();
     }
 
+    // public void setCellTypeCost(char type, int cost){
+    //     for (int )
+    // }
+
+    // public Cell[] getCellsType(char type){
+    //     for (Cell cell : getCells)
+    // }
+
     private void storeWorld() {
         try {
             File f = new File("newRandomLevel.world");
