@@ -34,7 +34,7 @@ public class DFS extends Algorithms {
         }
         steps.pollFirst(); // Remove first and last element
         steps.pollLast();
-        System.out.println("DFS Finished with " + steps.size() + " steps and " + Util.calculateAlgoCost(steps, grid) + " cost!");
+        System.out.println("DFS Finished with " + steps.size() + " steps, " + Util.calculateAlgoCost(steps, grid) + " cost and " + Util.calculateAlgoCost(steps, grid) + " search cost!");
     }
 
     @Override

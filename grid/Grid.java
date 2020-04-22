@@ -62,7 +62,7 @@ public class Grid {
 
         // Replace some LAND cells with WALLS
         for (int w = 0; w < this.walls.length; w++) {
-            int[] arrInxed = Util.getArrIndex(grass[w], M);
+            int[] arrInxed = Util.getArrIndex(walls[w], M);
             int i = arrInxed[0];
             int j = arrInxed[1];
             this.cells[i][j].changeCellType(Util.CELL_TYPES.WALL);

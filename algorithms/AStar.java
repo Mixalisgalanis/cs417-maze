@@ -20,6 +20,7 @@ public class AStar extends Algorithms {
         boolean closedList [] = new boolean[vertices];
         LinkedList<Pair> openList = new LinkedList<>();
         CellDetail cellDetails [] = new CellDetail[vertices];
+        int searchCost = 0;
 
         // Comparator 
         final Comparator<Pair> COST_COMPARATOR = new Comparator<Pair>() {
@@ -38,13 +39,15 @@ public class AStar extends Algorithms {
 
         openList.add(new Pair(start, cellDetails[start].f));
 
+
         while(!openList.isEmpty()){
             Collections.sort(openList, COST_COMPARATOR); // Sort open List
             Pair current = openList.pop();
             closedList[current.index] = true;
+            searchCost += grid.getCell(current.index).getCost();
 
             if(current.index == end){
-                steps = traceSteps(current.index, cellDetails);
+                steps = traceSteps(current.index, cellDetails, searchCost);
             }
 
             Iterator<Integer> i = graph.adjacentLists[current.index].listIterator(); 
@@ -98,7 +101,7 @@ public class AStar extends Algorithms {
         return Math.abs(indexStart[0] - indexEnd[0]) + Math.abs(indexStart[1] - indexEnd[1]); // Manhatan heuristic
     }
 
-    private LinkedList<Integer> traceSteps(int end, CellDetail[] cellDetails){
+    private LinkedList<Integer> traceSteps(int end, CellDetail[] cellDetails, int searchCost){
         LinkedList<Integer> steps = new LinkedList<>();
         
         while(end != -1){
@@ -107,7 +110,7 @@ public class AStar extends Algorithms {
         }
         steps.pollFirst(); // Remove first and last element
         steps.pollLast();
-        System.out.println("A* Finished with " + steps.size() + " steps and " + Util.calculateAlgoCost(steps, grid) + " cost!");
+        System.out.println("A* Finished with " + steps.size() + " steps, " + Util.calculateAlgoCost(steps, grid) + " cost and " + searchCost + " search cost!");
         return steps;
     }
 
