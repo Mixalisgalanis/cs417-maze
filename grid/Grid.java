@@ -1,3 +1,4 @@
+package grid;
 
 /**
 			INTELLIGENCE LAB
@@ -8,10 +9,18 @@
 	date 		:   March 2020
 */
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Random;
-import java.io.*;
 
-class Grid {
+import javax.swing.JFrame;
+import java.awt.Canvas;
+
+import java.io.*;
+import util.*;
+import util.Util.CELL_TYPES;
+import swing.*;
+
+public class Grid {
     private int N, M;
     private Cell[][] cells;
 
@@ -23,7 +32,7 @@ class Grid {
 
     // Constructors
 
-    Grid() {
+    public Grid() {
         this.N = 13;
         this.M = 9;
         this.start_idx = 96;
@@ -33,7 +42,7 @@ class Grid {
         this.storeWorld();
     }
 
-    Grid(int N, int M) {
+    public Grid(int N, int M) {
         this.N = N;
         this.M = M;
         this.cells = new Cell[this.N][this.M];
@@ -41,7 +50,7 @@ class Grid {
         this.storeWorld();
     }
 
-    Grid(String filename) {
+    public Grid(String filename) {
         this.loadWold(filename);
 
         // Fill everything with LAND
@@ -264,7 +273,7 @@ class Grid {
 
         // Replace some Land Cells with Wall Cells
         for (int w = 0; w < this.walls.length; w++) {
-            int[] arrInxed = Util.getArrIndex(grass[w], M);
+            int[] arrInxed = Util.getArrIndex(walls[w], M);
             int i = arrInxed[0];
             int j = arrInxed[1];
             this.cells[i][j].changeCellType(Util.CELL_TYPES.WALL);
@@ -289,5 +298,35 @@ class Grid {
             for (int g = 0; g < this.grass.length; g++)
                 this.grass[g] = tmp_g[g];
         }
+    }
+
+    public void VisualizeGrid(String frame_name) {
+        JFrame frame = new JFrame(frame_name);
+        //frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        Canvas canvas = new Drawing(N, M, walls, grass, start_idx, terminal_idx);
+        canvas.setSize(M * 30, N * 30);
+        frame.add(canvas);
+        frame.pack();
+        frame.setVisible(true);
+    }
+
+    public void VisualizeGrid(String frame_name, int[] steps) {
+        JFrame frame = new JFrame(frame_name);
+        //frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        Canvas canvas = new Drawing(N, M, walls, grass, steps, start_idx,terminal_idx);
+        canvas.setSize(M * 30, N * 30);
+        frame.add(canvas);
+        frame.pack();
+        frame.setVisible(true);
+    }
+
+    public void printInfo(){
+        System.out.println("\n------------- GRID INFO -------------");
+        System.out.println("Rows: " + N + " Columns: " + M + " Cells: " + N * M);
+        System.out.println("Land Cells: " + getCellsOfType(CELL_TYPES.LAND).length + " -> " + Arrays.toString(getIndexCellsOfType(CELL_TYPES.LAND)));
+        System.out.println("Grass Cells: " + getCellsOfType(CELL_TYPES.GRASS).length + " -> " + Arrays.toString(getIndexCellsOfType(CELL_TYPES.GRASS)));
+        System.out.println("Wall Cells: " + getCellsOfType(CELL_TYPES.WALL).length + " -> " + Arrays.toString(getIndexCellsOfType(CELL_TYPES.WALL)));
+        System.out.println("Do they add up: " + (getCellsOfType(CELL_TYPES.LAND).length + getCellsOfType(CELL_TYPES.GRASS).length + getCellsOfType(CELL_TYPES.WALL).length == N * M));
+        System.out.println("-------------------------------------");
     }
 }

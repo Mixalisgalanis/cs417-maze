@@ -1,3 +1,4 @@
+package swing;
 
 /**
 			INTELLIGENCE LAB
@@ -29,7 +30,7 @@ public class Drawing extends Canvas {
     public int start_idx, terminal_idx;
     public int s = 30;
 
-    Drawing(int N, int M, int[] walls, int[] grass, int start_idx, int terminal_idx) {
+    public Drawing(int N, int M, int[] walls, int[] grass, int start_idx, int terminal_idx) {
         this.N = N;
         this.M = M;
         this.walls = walls;
@@ -38,7 +39,7 @@ public class Drawing extends Canvas {
         this.terminal_idx = terminal_idx;
     }
 
-    Drawing(int N, int M, int[] walls, int[] grass, int[] step_sequence, int start_idx, int terminal_idx) {
+    public Drawing(int N, int M, int[] walls, int[] grass, int[] step_sequence, int start_idx, int terminal_idx) {
         this.N = N;
         this.M = M;
         this.walls = walls;

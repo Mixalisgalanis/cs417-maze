@@ -1,9 +1,13 @@
+package grid;
+
+import util.*;
+
 /**
  * INTELLIGENCE LAB course : COMP 417 - Artificial Intelligence authors : A.
  * Vogiatzis, N. Trigkas excercise : 1st Programming term : Spring 2019-2020
  * date : March 2020
  */
-class Cell {
+public class Cell {
 
     // Array Index format
     private int i;
@@ -18,7 +22,7 @@ class Cell {
     private Util.CELL_CONDS cell_cond;
 
     // Constructor: Default Cell (LAND)
-    Cell(int i, int j, int columns) {
+    public Cell(int i, int j, int columns) {
         this.i = i;
         this.j = j;
         this.idx = Util.getNumIndex(i, j, columns);
@@ -29,7 +33,7 @@ class Cell {
     }
 
     // Constructor with specific type of Cell
-    Cell(int i, int j, int columns, Util.CELL_TYPES cell_type, Util.CELL_CONDS cell_cond) {
+    public Cell(int i, int j, int columns, Util.CELL_TYPES cell_type, Util.CELL_CONDS cell_cond) {
         this.i = i;
         this.j = j;
         this.idx = Util.getNumIndex(i, j, columns);
