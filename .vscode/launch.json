@@ -10,7 +10,7 @@
             "request": "launch",
             "mainClass": "GridGenerator",
             "args": "",
-            "projectName": "cs417-maze_2c6c55ee"
+            "projectName": "cs417-maze_aed9809e"
         },
         {
             "type": "java",
@@ -18,7 +18,7 @@
             "request": "launch",
             "mainClass": "GridGenerator",
             "args": "-d 25 25",
-            "projectName": "cs417-maze_2c6c55ee"
+            "projectName": "cs417-maze_aed9809e"
         },
         {
             "type": "java",
@@ -26,7 +26,7 @@
             "request": "launch",
             "mainClass": "GridGenerator",
             "args": "-i world_examples/easy.world",
-            "projectName": "cs417-maze_2c6c55ee"
+            "projectName": "cs417-maze_aed9809e"
         },
         {
             "type": "java",
@@ -34,7 +34,7 @@
             "request": "launch",
             "mainClass": "GridGenerator",
             "args": "-i world_examples/medium.world",
-            "projectName": "cs417-maze_2c6c55ee"
+            "projectName": "cs417-maze_aed9809e"
         },
         {
             "type": "java",
@@ -42,7 +42,7 @@
             "request": "launch",
             "mainClass": "GridGenerator",
             "args": "-i world_examples/hard_a.world",
-            "projectName": "cs417-maze_2c6c55ee"
+            "projectName": "cs417-maze_aed9809e"
         },
         {
             "type": "java",
@@ -50,8 +50,7 @@
             "request": "launch",
             "mainClass": "GridGenerator",
             "args": "-i world_examples/hard_b.world",
-            "projectName": "cs417-maze_2c6c55ee"
-        },
-
+            "projectName": "cs417-maze_aed9809e"
+        }
     ]
 }

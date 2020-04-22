@@ -20,6 +20,7 @@ public class Algorithms {
 
     public Algorithms(Grid grid) {
         // Initiating graph
+        this.grid = grid;
         rows = grid.getNumOfRows();
         columns = grid.getNumOfColumns();
         vertices = rows * columns;
@@ -82,6 +83,8 @@ public class Algorithms {
                 }
             }
         }
+        steps.pollFirst(); // Remove first and last element
+        steps.pollLast();
         System.out.println("BFS Finished with " + steps.size() + " steps and " + calculateCost(steps) + " cost!");
         return steps.stream().mapToInt(i -> i).toArray();
     }
@@ -106,6 +109,8 @@ public class Algorithms {
                     stack.push(u);
             }
         }
+        steps.pollFirst(); // Remove first and last element
+        steps.pollLast();
         System.out.println("DFS Finished with " + steps.size() + " steps and " + calculateCost(steps) + " cost!");
         return steps.stream().mapToInt(i -> i).toArray();
     }
@@ -135,17 +140,31 @@ public class Algorithms {
     }
 
     public class CellDetail{
-        int f,g,h;
+        int f, g, h;
         int parent;
+
+        CellDetail(int f, int g, int h, int parent){
+            setDetails(f, g, h, parent);
+        }
+
+        void setDetails(int f, int g, int h, int parent){
+            this.f = f;
+            this.g = g;
+            this.h = h;
+            this.parent = parent;
+        }
     }
 
     private int[] traceSteps(int end, CellDetail[] cellDetails){
         LinkedList<Integer> steps = new LinkedList<>();
         
-        while(cellDetails[end].f != STANDARD_COST){
+        while(end != -1){
             steps.add(end);
             end = cellDetails[end].parent;
         }
+        steps.pollFirst(); // Remove first and last element
+        steps.pollLast();
+        System.out.println("A* Finished with " + steps.size() + " steps and " + calculateCost(steps) + " cost!");
         return steps.stream().mapToInt(i -> i).toArray();
     }
 
@@ -164,17 +183,14 @@ public class Algorithms {
         };
 
         // Initialize cellDetails
-        for(int i=0; i<vertices; i++){        
-            cellDetails[i].f = STANDARD_COST;
-            cellDetails[i].g = STANDARD_COST;
-            cellDetails[i].h = STANDARD_COST;
-            cellDetails[i].parent = -1;
+        for(int i=0; i<vertices; i++){       
+            cellDetails[i] = new CellDetail(STANDARD_COST, STANDARD_COST, STANDARD_COST, -1); 
         }
         
         cellDetails[start].g = 0;
         cellDetails[start].h = 0;
         cellDetails[start].f = 0;
-        cellDetails[start].parent = start;
+        cellDetails[start].parent = -1;
 
         openList.add(new Pair(start, cellDetails[start].f));
 
@@ -183,12 +199,9 @@ public class Algorithms {
             Pair current = openList.pop();
             closedList[current.index] = true;
 
-
-
             if(current.index == end){
                 return traceSteps(current.index, cellDetails);
             }
-
 
             Iterator<Integer> i = graph.adjacentLists[current.index].listIterator(); 
             while (i.hasNext()) { 
@@ -202,10 +215,7 @@ public class Algorithms {
                         openList.add(new Pair(next,fNew)); // Add to open list
 
                         // Update details of cell
-                        cellDetails[next].f = fNew;
-                        cellDetails[next].g = gNew;
-                        cellDetails[next].h = hNew;
-                        cellDetails[next].parent = current.index;
+                        cellDetails[next].setDetails(fNew, gNew, hNew, current.index);
                     }
                 }
                 
