@@ -127,13 +127,17 @@ class Grid {
         return getNumOfRows() * getNumOfColumns();
     }
 
-    public void setCostOfCellType(Util.CELL_TYPES cell_type, int cost){
-        Util.CELL_COSTS.replace(cell_type, cost);
+    public void changeCostOfCellType(Util.CELL_TYPES cell_type, int cost){
+        setCostOfCellType(cell_type, cost);
         for (int i = 0; i < this.N; i++) {
             for (int j = 0; j < this.M; j++) {
                 if (cells[i][j].getCellType() == cell_type) cells[i][j].setCost(cost);
             }
         }
+    }
+
+    private void setCostOfCellType(Util.CELL_TYPES cell_type, int cost){
+        Util.CELL_COSTS.replace(cell_type, cost);
     }
 
     private void storeWorld() {
