@@ -12,9 +12,12 @@ import java.awt.Canvas;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.Arrays;
 
 class GridGenerator {
+
+    private static final int FIRST_GRASS_COST_OPTION = 2;
+    private static final int SECOND_GRASS_COST_OPTION = 10;
+
     private static final BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
 
     public static void VisualizeGrid(String frame_name, int N, int M, int[] walls, int[] grass, int start_idx, int terminal_idx) {
@@ -51,51 +54,51 @@ class GridGenerator {
             switch (action) {
             case 0: return;
             case 1:  // BFS (Grass Cost: 2)
-                algorithms.setGrassCost(2);
+                grid.setCostOfCellType(Util.CELL_TYPES.GRASS, FIRST_GRASS_COST_OPTION);
                 int[] steps = algorithms.BFS(grid.getStartidx(), grid.getTerminalidx());
                 //System.out.println(Arrays.toString(steps));
-                VisualizeGrid(frame, grid.getNumOfRows(), grid.getNumOfColumns(), grid.getWalls(), grid.getGrass(), steps, grid.getStartidx(), grid.getTerminalidx());
+                VisualizeGrid(frame, grid.getNumOfRows(), grid.getNumOfColumns(), grid.getIndexCellsOfType(Util.CELL_TYPES.WALL), grid.getIndexCellsOfType(Util.CELL_TYPES.GRASS), steps, grid.getStartidx(), grid.getTerminalidx());
                 break;
             case 2:  // BFS (Grass Cost: 10)
-                algorithms.setGrassCost(10);
+                grid.setCostOfCellType(Util.CELL_TYPES.GRASS, SECOND_GRASS_COST_OPTION);
                 steps = algorithms.BFS(grid.getStartidx(), grid.getTerminalidx());
                 //System.out.println(Arrays.toString(steps));
-                VisualizeGrid(frame, grid.getNumOfRows(), grid.getNumOfColumns(), grid.getWalls(), grid.getGrass(), steps, grid.getStartidx(), grid.getTerminalidx());
+                VisualizeGrid(frame, grid.getNumOfRows(), grid.getNumOfColumns(), grid.getIndexCellsOfType(Util.CELL_TYPES.WALL), grid.getIndexCellsOfType(Util.CELL_TYPES.GRASS), steps, grid.getStartidx(), grid.getTerminalidx());
                 break;
             case 3:  // DFS (Grass Cost: 2)
-                algorithms.setGrassCost(2);
+                grid.setCostOfCellType(Util.CELL_TYPES.GRASS, FIRST_GRASS_COST_OPTION);
                 steps = algorithms.DFS(grid.getStartidx(), grid.getTerminalidx());
                 //System.out.println(Arrays.toString(steps));
-                VisualizeGrid(frame, grid.getNumOfRows(), grid.getNumOfColumns(), grid.getWalls(), grid.getGrass(), steps, grid.getStartidx(), grid.getTerminalidx());
+                VisualizeGrid(frame, grid.getNumOfRows(), grid.getNumOfColumns(), grid.getIndexCellsOfType(Util.CELL_TYPES.WALL), grid.getIndexCellsOfType(Util.CELL_TYPES.GRASS), steps, grid.getStartidx(), grid.getTerminalidx());
                 break;
             case 4:  // DFS (Grass Cost: 10)
-                algorithms.setGrassCost(10);
+                grid.setCostOfCellType(Util.CELL_TYPES.GRASS, SECOND_GRASS_COST_OPTION);
                 steps = algorithms.DFS(grid.getStartidx(), grid.getTerminalidx());
                 //System.out.println(Arrays.toString(steps));
-                VisualizeGrid(frame, grid.getNumOfRows(), grid.getNumOfColumns(), grid.getWalls(), grid.getGrass(), steps, grid.getStartidx(), grid.getTerminalidx());
+                VisualizeGrid(frame, grid.getNumOfRows(), grid.getNumOfColumns(), grid.getIndexCellsOfType(Util.CELL_TYPES.WALL), grid.getIndexCellsOfType(Util.CELL_TYPES.GRASS), steps, grid.getStartidx(), grid.getTerminalidx());
                 break;
             case 5:  // A* (Grass Cost: 2)
-                algorithms.setGrassCost(2);
+                grid.setCostOfCellType(Util.CELL_TYPES.GRASS, FIRST_GRASS_COST_OPTION);
                 steps = algorithms.AStar(grid.getStartidx(), grid.getTerminalidx());
-                VisualizeGrid(frame, grid.getNumOfRows(), grid.getNumOfColumns(), grid.getWalls(), grid.getGrass(), steps, grid.getStartidx(), grid.getTerminalidx());
-                break;
+                VisualizeGrid(frame, grid.getNumOfRows(), grid.getNumOfColumns(), grid.getIndexCellsOfType(Util.CELL_TYPES.WALL), grid.getIndexCellsOfType(Util.CELL_TYPES.GRASS), steps, grid.getStartidx(), grid.getTerminalidx());
+                break; 
             case 6:  // A* (Grass Cost: 10)
-                algorithms.setGrassCost(10);
+                grid.setCostOfCellType(Util.CELL_TYPES.GRASS, SECOND_GRASS_COST_OPTION);
                 steps = algorithms.AStar(grid.getStartidx(), grid.getTerminalidx());
-                VisualizeGrid(frame, grid.getNumOfRows(), grid.getNumOfColumns(), grid.getWalls(), grid.getGrass(), steps, grid.getStartidx(), grid.getTerminalidx());
+                VisualizeGrid(frame, grid.getNumOfRows(), grid.getNumOfColumns(), grid.getIndexCellsOfType(Util.CELL_TYPES.WALL), grid.getIndexCellsOfType(Util.CELL_TYPES.GRASS), steps, grid.getStartidx(), grid.getTerminalidx());
                 break;
             case 7:  // LRTA* (Grass Cost: 2)
-                algorithms.setGrassCost(2);
-                algorithms.LRTAStar();
-                //VisualizeGrid(frame, grid.getNumOfRows(), grid.getNumOfColumns(), grid.getWalls(), grid.getGrass(), steps, grid.getStartidx(), grid.getTerminalidx());
+                grid.setCostOfCellType(Util.CELL_TYPES.GRASS, FIRST_GRASS_COST_OPTION);
+                algorithms.LRTAStar(grid.getStartidx(), grid.getTerminalidx());
+                //VisualizeGrid(frame, grid.getNumOfRows(), grid.getNumOfColumns(), grid.getIndexCellsOfType(Util.CELL_TYPES.WALL), grid.getIndexCellsOfType(Util.CELL_TYPES.GRASS), steps, grid.getStartidx(), grid.getTerminalidx());
                 break;
             case 8:  // LRTA* (Grass Cost: 10)
-                algorithms.setGrassCost(10);
-                algorithms.LRTAStar();
-                //VisualizeGrid(frame, grid.getNumOfRows(), grid.getNumOfColumns(), grid.getWalls(), grid.getGrass(), steps, grid.getStartidx(), grid.getTerminalidx());
+                grid.setCostOfCellType(Util.CELL_TYPES.GRASS, SECOND_GRASS_COST_OPTION);
+                algorithms.LRTAStar(grid.getStartidx(), grid.getTerminalidx());
+                //VisualizeGrid(frame, grid.getNumOfRows(), grid.getNumOfColumns(), grid.getIndexCellsOfType(Util.CELL_TYPES.WALL), grid.getIndexCellsOfType(Util.CELL_TYPES.GRASS), steps, grid.getStartidx(), grid.getTerminalidx());
                 break;
             case 9:  // Visualize Original Grid
-                VisualizeGrid(frame, grid.getNumOfRows(), grid.getNumOfColumns(), grid.getWalls(), grid.getGrass(), grid.getStartidx(), grid.getTerminalidx());
+                VisualizeGrid(frame, grid.getNumOfRows(), grid.getNumOfColumns(), grid.getIndexCellsOfType(Util.CELL_TYPES.WALL), grid.getIndexCellsOfType(Util.CELL_TYPES.GRASS), grid.getStartidx(), grid.getTerminalidx());
                 break;
             default: System.out.println("Action not found!"); break;
             }

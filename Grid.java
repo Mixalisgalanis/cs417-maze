@@ -7,21 +7,28 @@
 	term 		: 	Spring 2019-2020
 	date 		:   March 2020
 */
+import java.util.ArrayList;
 import java.util.Random;
 import java.io.*;
 
 class Grid {
-    private int N = 13, M = 9;
-    private Cell[][] mygrid = new Cell[N][M];
+    private int N, M;
+    private Cell[][] cells;
 
     private int[] walls;
     private int[] grass;
 
-    private int start_idx = 96;
-    private int terminal_idx = 42;
-    private int grass_cost = 2;
+    private int start_idx;
+    private int terminal_idx;
+
+    // Constructors
 
     Grid() {
+        this.N = 13;
+        this.M = 9;
+        this.start_idx = 96;
+        this.terminal_idx = 42;
+        this.cells = new Cell[this.N][this.M];
         this.init();
         this.storeWorld();
     }
@@ -29,13 +36,7 @@ class Grid {
     Grid(int N, int M) {
         this.N = N;
         this.M = M;
-        this.mygrid = new Cell[N][M];
-        this.init();
-        this.storeWorld();
-    }
-
-    Grid(int grass_cost) {
-        this.grass_cost = grass_cost;
+        this.cells = new Cell[this.N][this.M];
         this.init();
         this.storeWorld();
     }
@@ -43,47 +44,50 @@ class Grid {
     Grid(String filename) {
         this.loadWold(filename);
 
+        // Fill everything with LAND
         for (int i = 0; i < this.N; i++) {
             for (int j = 0; j < this.M; j++) {
-                this.mygrid[i][j] = new Cell('L', ((i * this.M + j) == this.start_idx),
-                        ((i * this.M + j) == this.terminal_idx), 1);
+                this.cells[i][j] = new Cell(i, j, this.M, Util.CELL_TYPES.LAND, ((Util.getNumIndex(i, j, M) == this.start_idx) ? Util.CELL_CONDS.START : (Util.getNumIndex(i, j, M) == this.terminal_idx) ?  Util.CELL_CONDS.END : Util.CELL_CONDS.NORMAL));
             }
         }
+
+        // Replace some LAND cells with WALLS
         for (int w = 0; w < this.walls.length; w++) {
-            int i = this.walls[w] / this.M;
-            int j = this.walls[w] % this.M;
-            this.mygrid[i][j].changeCellType('W', Integer.MAX_VALUE);
+            int[] arrInxed = Util.getArrIndex(grass[w], M);
+            int i = arrInxed[0];
+            int j = arrInxed[1];
+            this.cells[i][j].changeCellType(Util.CELL_TYPES.WALL);
         }
+
+        // Replace some LAND cells with GRASS
         for (int g = 0; g < this.grass.length; g++) {
-            int i = this.grass[g] / this.M;
-            int j = this.grass[g] % this.M;
-            this.mygrid[i][j].changeCellType('G', this.grass_cost);
+            int[] arrInxed = Util.getArrIndex(grass[g], M);
+            int i = arrInxed[0];
+            int j = arrInxed[1];
+            this.cells[i][j].changeCellType(Util.CELL_TYPES.GRASS);
         }
+    }
+
+    // Other Functions
+    public Cell[][] getCells(){
+        return cells;
     }
 
     public Cell getCell(int i, int j) {
-        return this.mygrid[i][j];
+        return this.cells[i][j];
     }
 
     public Cell getCell(int numIdx){
-        int[] idx = new int[2];
-        idx[0] = numIdx / M;
-        idx[1] = numIdx % M;
-        return this.mygrid[idx[0]][idx[1]];
+        int[] idx = Util.getArrIndex(numIdx, M);
+        return this.cells[idx[0]][idx[1]];
     }
 
-    public int[] getStart() {
-        int[] idx = new int[2];
-        idx[0] = this.start_idx / M;
-        idx[1] = this.start_idx % M;
-        return idx;
+    public Cell getStartCell(){
+        return getCell(this.start_idx);
     }
 
-    public int[] getTerminal() {
-        int[] idx = new int[2];
-        idx[0] = this.terminal_idx / M;
-        idx[1] = this.terminal_idx % M;
-        return idx;
+    public Cell getTerminalCell(){
+        return getCell(this.terminal_idx);
     }
 
     public int getTerminalidx() {
@@ -102,16 +106,34 @@ class Grid {
         return this.M;
     }
 
-    public int[] getWalls() {
-        return this.walls;
+    public Cell[] getCellsOfType(Util.CELL_TYPES cell_type){
+        ArrayList<Cell> specificCells = new ArrayList<>();
+        for (int i = 0; i < this.N; i++) {
+            for (int j = 0; j < this.M; j++) {
+                if (cells[i][j].getCellType() == cell_type) specificCells.add(cells[i][j]);
+            }
+        }
+        return specificCells.toArray(new Cell[specificCells.size()]);
     }
 
-    public int[] getGrass() {
-        return this.grass;
+    public int[] getIndexCellsOfType(Util.CELL_TYPES cell_type){
+        Cell[] cells = getCellsOfType(cell_type);
+        int[] indexCells = new int[cells.length];
+        for (int i = 0; i < cells.length; i++) indexCells[i] = cells[i].getNumIndex();
+        return indexCells;
     }
 
     public int getNumOfCells(){
         return getNumOfRows() * getNumOfColumns();
+    }
+
+    public void setCostOfCellType(Util.CELL_TYPES cell_type, int cost){
+        Util.CELL_COSTS.replace(cell_type, cost);
+        for (int i = 0; i < this.N; i++) {
+            for (int j = 0; j < this.M; j++) {
+                if (cells[i][j].getCellType() == cell_type) cells[i][j].setCost(cost);
+            }
+        }
     }
 
     private void storeWorld() {
@@ -144,7 +166,7 @@ class Grid {
             bw.newLine();
             bw.write("terminal_idx:" + this.terminal_idx);
             bw.newLine();
-            bw.write("grass_cost:" + this.grass_cost);
+            bw.write("grass_cost:" + Util.getCostType(Util.CELL_TYPES.GRASS));
             bw.close();
 
         } catch (IOException e) {
@@ -186,12 +208,12 @@ class Grid {
                     this.terminal_idx = Integer.parseInt(param.split(":")[1]);
                 } else if (param.split(":")[0].equalsIgnoreCase("grass_cost")) {
                     // read cost for grass
-                    this.grass_cost = Integer.parseInt(param.split(":")[1]);
+                    setCostOfCellType(Util.CELL_TYPES.GRASS, Integer.parseInt(param.split(":")[1]));
                 }
                 param = br.readLine();
             }
             br.close();
-            this.mygrid = new Cell[this.N][this.M];
+            this.cells = new Cell[this.N][this.M];
         } catch (IOException e) {
         }
     }
@@ -229,27 +251,31 @@ class Grid {
             this.grass[g] = tmp;
         }
 
+        // Generate Land Cells
         for (int i = 0; i < this.N; i++) {
             for (int j = 0; j < this.M; j++) {
-                this.mygrid[i][j] = new Cell('L', ((i * this.M + j) == this.start_idx),
-                        ((i * this.M + j) == this.terminal_idx), 1);
+                this.cells[i][j] = new Cell(i, j, this.M, Util.CELL_TYPES.LAND, ((Util.getNumIndex(i, j, M) == this.start_idx) ? Util.CELL_CONDS.START : (Util.getNumIndex(i, j, M) == this.terminal_idx) ?  Util.CELL_CONDS.END : Util.CELL_CONDS.NORMAL));
             }
         }
 
+        // Replace some Land Cells with Wall Cells
         for (int w = 0; w < this.walls.length; w++) {
-            int i = this.walls[w] / M;
-            int j = this.walls[w] % M;
-            this.mygrid[i][j].changeCellType('W', Integer.MAX_VALUE);
+            int[] arrInxed = Util.getArrIndex(grass[w], M);
+            int i = arrInxed[0];
+            int j = arrInxed[1];
+            this.cells[i][j].changeCellType(Util.CELL_TYPES.WALL);
         }
 
         int count_g = 0;
         int[] tmp_g = new int[this.grass.length];
 
+        // Replace some Land Cells with Grass Cells
         for (int g = 0; g < this.grass.length; g++) {
-            int i = this.grass[g] / M;
-            int j = this.grass[g] % M;
-            if (!this.mygrid[i][j].isWall()) {
-                this.mygrid[i][j].changeCellType('G', this.grass_cost);
+            int[] arrInxed = Util.getArrIndex(grass[g], M);
+            int i = arrInxed[0];
+            int j = arrInxed[1];
+            if (!this.cells[i][j].isWall()) {
+                this.cells[i][j].changeCellType(Util.CELL_TYPES.GRASS);
                 tmp_g[count_g] = this.grass[g];
                 count_g += 1;
             }

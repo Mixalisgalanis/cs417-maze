@@ -5,9 +5,8 @@ import java.util.LinkedList;
 import java.util.Stack;
 
 /**
- * Each of the algorithms below needs a graph in order to work. Therefore, the
- * initial process consists of the graph representation of our maze.
- * 
+ * Each of the algorithms below needs a graph in order to work. Therefore, 
+ * the initial process consists of the graph representation of our maze.
  */
 public class Algorithms {
     // Graph related variables
@@ -18,34 +17,26 @@ public class Algorithms {
     private Grid grid;
     private static final int STANDARD_COST = 10_000;
 
-    public Algorithms(Grid grid) {
-        // Initiating graph
+    // Constructor
+
+    public Algorithms(Grid grid){
+        //Initiating graph
         this.grid = grid;
         rows = grid.getNumOfRows();
         columns = grid.getNumOfColumns();
         vertices = rows * columns;
-        graph = new Graph(vertices,grid);
+        graph = new Graph(vertices);
         addNeighbours(grid);
     }
 
-    private int getNumIdx(int r, int c) {
-        return r * columns + c;
-    }
-
-    private void addNeighbours(Grid grid) {
-        for (int i = 0; i < rows; i++) {
-            for (int j = 0; j < columns; j++) {
-                if (i - 1 >= 0 && !grid.getCell(i - 1, j).isWall())
-                    graph.addNewEdge(getNumIdx(i, j), getNumIdx(i - 1, j)); // check top
-                if (i + 1 < rows && !grid.getCell(i + 1, j).isWall())
-                    graph.addNewEdge(getNumIdx(i, j), getNumIdx(i + 1, j)); // check bottom
-                if (j - 1 >= 0 && !grid.getCell(i, j - 1).isWall())
-                    graph.addNewEdge(getNumIdx(i, j), getNumIdx(i, j - 1)); // check left
-                if (j + 1 < columns && !grid.getCell(i, j + 1).isWall())
-                    graph.addNewEdge(getNumIdx(i, j), getNumIdx(i, j + 1)); // check right
-                // System.out.println("i:" + i + " j:" + j + " idx: " + getNumIdx(i, j) + ", " +
-                // ((i - 1 >= 0) ? "T" : "") + ((i + 1 < rows) ? "B" : "") + ((j - 1 >= 0) ? "L"
-                // : "") + ((j + 1 < columns) ? "R" : ""));
+    private void addNeighbours(Grid grid){
+        for (int i = 0; i < rows; i++){
+            for (int j = 0; j < columns; j++){
+                if (i - 1 >= 0 && !grid.getCell(i - 1, j).isWall()) graph.addNewEdge(Util.getNumIndex(i, j, columns), Util.getNumIndex(i - 1, j, columns)); //check top
+                if (i + 1 < rows && !grid.getCell(i + 1, j).isWall()) graph.addNewEdge(Util.getNumIndex(i, j, columns), Util.getNumIndex(i + 1, j, columns)); //check bottom
+                if (j - 1 >= 0 && !grid.getCell(i, j - 1).isWall()) graph.addNewEdge(Util.getNumIndex(i, j, columns), Util.getNumIndex(i, j - 1, columns)); //check left
+                if (j + 1 < columns && !grid.getCell(i, j + 1).isWall()) graph.addNewEdge(Util.getNumIndex(i, j, columns), Util.getNumIndex(i, j + 1, columns)); //check right 
+                //System.out.println("i:" + i + " j:" + j + " idx: " + Util.getNumIndex(i, j, columns) + ", " + ((i - 1 >= 0) ? "T" : "") + ((i + 1 < rows) ? "B" : "") + ((j - 1 >= 0) ? "L" : "") + ((j + 1 < columns) ? "R" : ""));
             }
         }
     }
@@ -224,13 +215,16 @@ public class Algorithms {
         return null;
     }
 
-    public void LRTAStar(){
+    public void LRTAStar(int start, int end){
         
     }
 
-    public void setGrassCost(int cost){
-        for (int grassIdx : grid.getGrass())
-            grid.getCell(grassIdx).setCost(cost);
+    public void LRTAStarHelper(int[] result, int[] H, int s, int a){
+
+    }
+
+    public int LRTACost(int s, int a, int sAlt, int[] H){
+        return 0;
     }
 
     private int calculateCost(LinkedList<Integer> steps){
@@ -243,12 +237,10 @@ public class Algorithms {
     
     class Graph {
         //Essential Variables
-        private final int vertices;
         protected LinkedList<Integer> adjacentLists[];
 
-        Graph(int vertices, Grid grid){
+        Graph(int vertices){
             //initialize variables
-            this.vertices = vertices;
             this.adjacentLists = new LinkedList[vertices];
             for (int i = 0; i < adjacentLists.length; i++) adjacentLists[i] = new LinkedList<>();
         }
@@ -257,6 +249,7 @@ public class Algorithms {
             //System.out.println(adjacentLists.length + ", " + listIndex + ", " + edgeIndex);
             adjacentLists[listIndex].add(edgeIndex);
         }
+        
         public LinkedList<Integer>[] getAdjacentLists(){
             return adjacentLists;
         }

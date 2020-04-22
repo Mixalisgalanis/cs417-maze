@@ -53,7 +53,7 @@ public class Drawing extends Canvas {
             for (int j = 0; j < N; j++) {
                 g2.setColor(new Color(210, 180, 140));
                 try {
-                    img = ImageIO.read(new File("img/land2.jpg"));
+                    img = ImageIO.read(new File("img/land.jpg"));
                     Rectangle r = new Rectangle(0, 0, s, s);
                     g2.setPaint(new TexturePaint(img, r));
                     Rectangle rect = new Rectangle(i * s, j * s, s, s);
@@ -76,7 +76,7 @@ public class Drawing extends Canvas {
             int j = walls[k] / M;
 
             try {
-                img = ImageIO.read(new File("img/wall.png"));
+                img = ImageIO.read(new File("img/wall.jpg"));
                 Rectangle r = new Rectangle(0, 0, s, s);
                 g2.setPaint(new TexturePaint(img, r));
                 Rectangle rect = new Rectangle(i * s, j * s, s, s);
@@ -121,7 +121,7 @@ public class Drawing extends Canvas {
                 int j = step_sequence[k] / M;
 
                 try {
-                    img = ImageIO.read(new File("img/walk.jpg"));
+                    img = ImageIO.read(new File("img/walk.png"));
                     Rectangle r = new Rectangle(0, 0, s, s);
                     g2.setPaint(new TexturePaint(img, r));
                     Rectangle rect = new Rectangle(i * s, j * s, s, s);
@@ -140,7 +140,7 @@ public class Drawing extends Canvas {
         int i = terminal_idx % M;
         int j = terminal_idx / M;
         try {
-            img = ImageIO.read(new File("img/terminal3.png"));
+            img = ImageIO.read(new File("img/finish.png"));
             Rectangle r = new Rectangle(0, 0, s, s);
             g2.setPaint(new TexturePaint(img, r));
             Rectangle rect = new Rectangle(i * s, j * s, s, s);
