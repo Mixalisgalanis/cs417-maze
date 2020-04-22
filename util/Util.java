@@ -16,6 +16,8 @@ public class Util {
     public static enum CELL_TYPES {LAND, GRASS, WALL}
     public static enum CELL_CONDS {NORMAL, START, END}
 
+    public static enum ACTION_TYPES {MOVE, STOP} //used for LRTA*
+
     private static final BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
 
     public static Map<CELL_TYPES, Integer> CELL_COSTS = new HashMap<CELL_TYPES, Integer>(){
