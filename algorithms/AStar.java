@@ -11,7 +11,7 @@ import util.*;
 public class AStar extends Algorithms {
     
     public AStar(Grid grid, int grass_cost, String world_name) {
-        super(grid, grass_cost);
+        super(grid, grass_cost, world_name);
         calc(grid.getStartidx(), grid.getTerminalidx());
         grid.VisualizeGrid(world_name + toString(), steps.stream().mapToInt(i -> i).toArray());
     }
@@ -110,7 +110,7 @@ public class AStar extends Algorithms {
         }
         steps.pollFirst(); // Remove first and last element
         steps.pollLast();
-        System.out.println("A* Finished with " + steps.size() + " steps, " + Util.calculateAlgoCost(steps, grid) + " cost and " + searchCost + " search cost!");
+        System.out.println(world_name + toString() + " Finished with " + steps.size() + " steps, " + Util.calculateAlgoCost(steps, grid) + " cost and " + searchCost + " search cost!");
         return steps;
     }
 

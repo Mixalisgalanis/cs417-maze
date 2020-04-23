@@ -15,11 +15,12 @@ public abstract class Algorithms {
     int vertices;
     Graph graph;
     Grid grid;
+    String world_name;
 
     LinkedList<Integer> steps;
 
     // Constructor
-    Algorithms(Grid grid, int grass_cost){
+    Algorithms(Grid grid, int grass_cost, String world_name){
         //Initiating graph
         this.grid = grid;
         this.rows = grid.getNumOfRows();
@@ -27,6 +28,7 @@ public abstract class Algorithms {
         this.vertices = rows * columns;
         this.graph = new Graph(vertices);
         this.grid.changeCostOfCellType(Util.CELL_TYPES.GRASS, grass_cost);
+        this.world_name = world_name;
         this.steps = new LinkedList<>();
     }
 

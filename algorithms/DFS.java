@@ -8,7 +8,7 @@ import util.*;
 public class DFS extends Algorithms {
 
     public DFS(Grid grid, int grass_cost, String world_name) {
-        super(grid, grass_cost);
+        super(grid, grass_cost, world_name);
         calc(grid.getStartidx(), grid.getTerminalidx());
         grid.VisualizeGrid(world_name + toString(), steps.stream().mapToInt(i -> i).toArray());
     }
@@ -34,7 +34,7 @@ public class DFS extends Algorithms {
         }
         steps.pollFirst(); // Remove first and last element
         steps.pollLast();
-        System.out.println("DFS Finished with " + steps.size() + " steps, " + Util.calculateAlgoCost(steps, grid) + " cost and " + Util.calculateAlgoCost(steps, grid) + " search cost!");
+        System.out.println(world_name + toString() + " Finished with " + steps.size() + " steps, " + Util.calculateAlgoCost(steps, grid) + " cost and " + Util.calculateAlgoCost(steps, grid) + " search cost!");
     }
 
     @Override
