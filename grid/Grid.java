@@ -91,6 +91,10 @@ public class Grid {
         return this.cells[idx[0]][idx[1]];
     }
 
+    public Cell getCell(int[] coordinates){
+        return this.cells[coordinates[0]][coordinates[1]];
+    }
+
     public Cell getStartCell(){
         return getCell(this.start_idx);
     }

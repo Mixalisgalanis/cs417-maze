@@ -12,7 +12,6 @@ public class LRTAStar extends Algorithms {
     HashMap<Key, State> result = new HashMap<>();
     HashMap<State, Integer> heuristic = new HashMap<>();
 
-
     public LRTAStar(Grid grid, int grass_cost, String world_name) {
         super(grid, grass_cost);
         calc(grid.getStartidx(), grid.getTerminalidx());
@@ -29,10 +28,8 @@ public class LRTAStar extends Algorithms {
         steps = new LinkedList<>();
 
         while(currentState != null){
-            if (action != null && action.action_type == Util.ACTION_TYPES.STOP) 
-                return;
             if (currentState.equalsToState(endState)) 
-                action.action_type = Util.ACTION_TYPES.STOP;
+                return;
             else {
                 if (!heuristic.containsKey(currentState)) heuristic.put(currentState, currentState.calcHeuristic(endState));
                 if (state != null){
@@ -41,30 +38,36 @@ public class LRTAStar extends Algorithms {
                     int min = Integer.MAX_VALUE;
                     ArrayList<Action> actions = generateActions(state);
                     for (Action act : actions){
+                        //if(result.)
                         State newState = result.get(new Key(state, act));
                         int cost = calcCost(state, act, newState, endState);
                         min = Math.min(cost, min);
                     }
                     heuristic.put(state, min);
                 }
+
                 int min = Integer.MAX_VALUE;
                 action = new Action(Util.ACTION_TYPES.STOP, null);
                 ArrayList<Action> actions = generateActions(currentState);
                 ArrayList<State> visitedStates = new ArrayList<>();
+                HashMap<Action, Integer> actionWithCosts = new HashMap<>();
                 for (Action act : actions){
                     State newState = result.get(new Key(currentState, act));
                     int cost = calcCost(currentState, act, newState, endState);
                     visitedStates.add(act.destinationState);
+                    actionWithCosts.put(act, cost);
                     if (cost < min){
+                        min = cost;
                         action.destinationState = act.destinationState;
                         action.action_type = act.action_type;
                     }
                 }
+                actionWithCosts.forEach((key, value) -> System.out.print("[" + key.toString() + ", " + value + "]  "));
             }
             state = currentState;
             currentState = action.destinationState;
             steps.add(Util.getNumIndex(currentState.i, currentState.j, columns));
-            System.out.println("State: " + state.toString() + ", current_state: " + currentState.toString() + ", action: " + action.toString());
+            System.out.println("Action chosen: " + action.toString() + ": prev=" + state.toString() + " -> curr=" + currentState.toString());
         }
         steps.removeLast();
     }
@@ -78,20 +81,11 @@ public class LRTAStar extends Algorithms {
         }
         return actions;
     }
-    
 
     private int calcCost(State state, Action action, State newState, State endState){
-        int f;
-        if (newState == null) 
-            f = action.destinationState.calcHeuristic(endState);
-        else{
-            int g = heuristic.get(newState);
-            int h = state.calcHeuristic(endState);
-            f = g + h;
-        }
-        return f;
+        if (!heuristic.containsKey(newState)) return action.destinationState.calcHeuristic(endState);
+        else return grid.getCell(newState.getCoordinates()).getCost() + heuristic.get(newState);
     }
-
 
     /**
      * This class is used to represent a state position [i,j] in our grid.
@@ -105,6 +99,13 @@ public class LRTAStar extends Algorithms {
             this.j = coordinates[1];
         }
 
+        int[] getCoordinates(){
+            int[] coordinates = new int[2];
+            coordinates[0] = this.i;
+            coordinates[1] = this.j;
+            return  coordinates;
+        }
+
         boolean equalsToState(State endState){
             return (endState.i == this.i && endState.j == this.j);
         }
@@ -115,7 +116,7 @@ public class LRTAStar extends Algorithms {
 
         @Override
         public String toString(){
-        return "State(i = " + i + ", j = " + j + ")";
+        return "[" + i + "," + j + "]";
         }
 
     }
@@ -131,7 +132,7 @@ public class LRTAStar extends Algorithms {
 
         @Override
         public String toString(){
-            return "Action(type = " + action_type + ", destState = " + destinationState.toString() + ")";
+            return "[" + action_type + ", " + destinationState.toString() + "]";
         }
     }
 
