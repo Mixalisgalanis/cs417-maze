@@ -18,7 +18,6 @@ public class BFS extends Algorithms {
         // set as false)
         boolean visited[] = new boolean[vertices];
         LinkedList<Integer> adjLists[] = graph.getAdjacentLists();
-        int searchCost = 0;
         // Create a queue for BFS
         LinkedList<Integer> queue = new LinkedList<Integer>();
         LinkedList<Integer> searched = new LinkedList<>();
