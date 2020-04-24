@@ -16,6 +16,8 @@ public class DFS extends Algorithms {
     void calc(int start, int end) {
         boolean visited[] = new boolean[vertices];
         Stack<Integer> stack = new Stack<>();
+        LinkedList<Integer> searched = new LinkedList<>();
+        int[] parents = new int[vertices];
         stack.push(start);
 
         int v = start;
@@ -24,21 +26,31 @@ public class DFS extends Algorithms {
             if (visited[v])
                 continue;
             visited[v] = true;
-            steps.add(v);
+            searched.add(v);
             LinkedList<Integer> adj = graph.adjacentLists[v];
             for (int i = adj.size() - 1; i >= 0; i--) {
                 int u = adj.get(i);
-                if (!visited[u])
+                if (!visited[u]){
                     stack.push(u);
+                    parents[u] = v;
+                }
             }
         }
+        traceSteps(start, end, parents);
         steps.pollFirst(); // Remove first and last element
-        steps.pollLast();
-        System.out.println(world_name + toString() + " Finished with " + steps.size() + " steps, " + Util.calculateAlgoCost(steps, grid) + " cost and " + Util.calculateAlgoCost(steps, grid) + " search cost!");
+      //  steps.pollLast();
+        System.out.println(world_name + toString() + " Finished with " + steps.size() + " steps, " + Util.calculateAlgoCost(steps, grid) + " cost and " + Util.calculateAlgoCost(searched, grid) + " search cost!");
     }
 
     @Override
     public String toString() {
         return ": DFS (" + Util.getCostType(Util.CELL_TYPES.GRASS) + ")";
+    }
+
+    private void traceSteps(int start, int end, int[] parents){    
+        while(end != start){
+            steps.add(end);
+            end = parents[end];
+        }
     }
 }
