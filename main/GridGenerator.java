@@ -45,13 +45,10 @@ class GridGenerator {
             case 6:  // A* (Grass Cost: 10)
                 new AStar(grid, Util.SECOND_GRASS_COST_OPTION, world_name);
                 break;
-            case 7:  // LRTA* (Grass Cost: 2)
-                new LRTAStar(grid, Util.FIRST_GRASS_COST_OPTION, world_name);
-                break;
-            case 8:  // LRTA* (Grass Cost: 10)
+            case 7:  // LRTA* (Grass Cost: 10)
                 new LRTAStar(grid, Util.SECOND_GRASS_COST_OPTION, world_name);
                 break;
-            case 9:  // Visualize Original Grid
+            case 8:  // Visualize Original Grid
                 grid.printInfo();
                 grid.VisualizeGrid(world_name);
                 break;
@@ -83,10 +80,9 @@ class GridGenerator {
         System.out.println("4. DFS (Grass cost: 10)");
         System.out.println("5. A* (Grass cost: 2)");
         System.out.println("6. A* (Grass cost: 10)");
-        System.out.println("7. LRTA* (Grass cost: 2)");
-        System.out.println("8. LRTA* (Grass cost: 10)");
+        System.out.println("7. LRTA* (Grass cost: 10)");
         System.out.println("---------------------------");
-        System.out.println("9. Visualize Original World");
+        System.out.println("8. Visualize Original World");
 		System.out.println("===========================");
     }
 }
